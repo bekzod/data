@@ -11,6 +11,7 @@ import InternalModelMap from './internal-model-map';
 export default class IdentityMap {
   constructor() {
     this._map = Object.create(null);
+    this._keys = [];
   }
 
   /**
@@ -25,8 +26,9 @@ export default class IdentityMap {
   retrieve(modelName) {
     let map = this._map[modelName];
 
-    if (!map) {
+    if (map === undefined) {
       map = this._map[modelName] = new InternalModelMap(modelName);
+      this._keys.push(modelName);
     }
 
     return map;
@@ -40,7 +42,7 @@ export default class IdentityMap {
    */
   clear() {
     let map = this._map;
-    let keys = Object.keys(map);
+    let keys = this._key;
 
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
